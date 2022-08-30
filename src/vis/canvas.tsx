@@ -1,7 +1,7 @@
 import * as React from "react";
-import Input from "./IO/input_read";
-import Output from "./IO/output_read";
-import INFO from "./basis/load_info";
+import Input from "../IO/input_read";
+import Output from "../IO/output_read";
+import INFO from "../basis/load_info";
 
 function DefaultCanvas() {
   return (
@@ -12,8 +12,7 @@ function DefaultCanvas() {
       <svg
         id="vis_svg"
         xmlns="http://www.w3.org/2000/svg"
-        width="500px"
-        height="500px"
+        viewBox={`0 0 ${INFO.canvas_size} ${INFO.canvas_size}`}
         style={{
           maxWidth: "500px",
           maxHeight: "500px",
@@ -71,8 +70,8 @@ export default function Canvas(props: { input_data: string; output_data: string 
       </p>
       <svg
         id="vis_svg"
-        viewBox={`0 0 ${INFO.canvas_size} ${INFO.canvas_size}`}
         xmlns="http://www.w3.org/2000/svg"
+        viewBox={`0 0 ${INFO.canvas_size} ${INFO.canvas_size}`}
         style={{
           maxWidth: "500px",
           maxHeight: "500px",

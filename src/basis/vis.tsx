@@ -7,10 +7,10 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import Canvas from "./canvas";
-import Copyright from "./basis/copyright";
+import Canvas from "../vis/canvas";
+import Copyright from "./copyright";
 import DownloadButton from "./download_button";
-import { getInputFromSeed, one_indexed } from "./IO/input_gen";
+import { getInputFromSeed, one_indexed } from "../IO/input_gen";
 import CheckIcon from "@mui/icons-material/Check";
 
 function InOutForm(props: {
@@ -96,7 +96,7 @@ export default function Visualizer() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+      <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }} elevation={10}>
         <article>
           <h1>Visualizer</h1>
           <InOutForm setInput={setInput} setOutput={setOutput} />

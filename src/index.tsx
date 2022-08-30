@@ -15,13 +15,13 @@ import { styled, ThemeProvider } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-import Visualizer from "./vis";
-import Problem from "./problem";
+import Visualizer from "./basis/vis";
+import Problem from "./basis/problem";
 import theme from "./basis/theme";
 import INFO from "./basis/load_info";
 import mainListItems from "./basis/listItems";
 
-const drawerWidth: number = 240;
+const drawerWidth: number = 180;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -63,9 +63,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
           duration: theme.transitions.duration.leavingScreen,
         }),
         width: theme.spacing(7),
-        [theme.breakpoints.up("sm")]: {
-          width: theme.spacing(9),
-        },
       }),
     },
   })
@@ -95,7 +92,7 @@ function DashboardContent() {
                 aria-label="open drawer"
                 onClick={toggleDrawer}
                 sx={{
-                  marginRight: "36px",
+                  marginRight: "12px",
                   ...(open && { display: "none" }),
                 }}
               >

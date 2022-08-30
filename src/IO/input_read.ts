@@ -6,12 +6,14 @@ interface Cell {
 }
 
 export default class Input {
+  public seed: number;
   public N: number;
   public C: number;
   public P: number;
   public grid: Cell[][];
 
-  constructor(input_content: string) {
+  constructor(input_content: string, seed = -1) {
+    this.seed = seed;
     const parser = new FileParser("input", input_content);
     this.N = parser.getInt();
     parser.getNewline();
@@ -30,7 +32,9 @@ export default class Input {
       }
     }
     console.assert(parser.isEOF());
-    console.log("[input read] done");
+    if (seed === -1) {
+      console.log("[input read] done");
+    }
   }
 
   summary(): string {

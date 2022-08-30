@@ -1,7 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import DownloadIcon from "@mui/icons-material/Download";
-import INFO from "./basis/load_info";
+import INFO from "./load_info";
 
 function download_func() {
   // https://stackoverflow.com/questions/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an

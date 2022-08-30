@@ -23,10 +23,12 @@ const inputs_raw: string[] = [
   input_0010,
 ];
 
-const inputs: Input[] = inputs_raw.map((input_raw: string) => new Input(input_raw));
-
 // seedが1-indexedかどうか
 const one_indexed = true;
+
+const inputs: Input[] = inputs_raw.map(
+  (input_raw: string, idx: number) => new Input(input_raw, idx + (one_indexed ? 1 : 0))
+);
 
 function getInputFromSeed(seed: number): string {
   if (one_indexed) seed--;
