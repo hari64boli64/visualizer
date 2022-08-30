@@ -1,6 +1,6 @@
 # Visualizer
 
-React+MaterialUIで作成したVisualizerです。
+React+MaterialUIで作成しているVisualizerです。
 
 ## Licence
 

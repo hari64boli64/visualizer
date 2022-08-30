@@ -1,6 +1,6 @@
 # 説明
 
-## フォルダ構成
+## フォルダ
 
 ### basis
 
@@ -31,7 +31,7 @@ util\convert_txt_to_ts.pyを用いて自動的に生成可能
 エントリーポイント
 問題ごとに書き換える必要なし
 
-### info.js table_info.tsx
+### info.js/table_info.tsx
 
 問題固有の情報
 問題ごとに書き換える必要あり
