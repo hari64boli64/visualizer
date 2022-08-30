@@ -46,10 +46,9 @@ export function ProblemInfoTableCells(props: {
       role="checkbox"
       aria-checked={props.isItemSelected}
       tabIndex={-1}
-      key={props.input.seed}
       selected={props.isItemSelected}
     >
-      <TableCell padding="checkbox">
+      <TableCell padding="checkbox" key="checkbox">
         <Checkbox
           color="primary"
           checked={props.isItemSelected}
@@ -58,12 +57,12 @@ export function ProblemInfoTableCells(props: {
           }}
         />
       </TableCell>
-      <TableCell component="th" id={props.labelId} scope="row">
+      <TableCell component="th" id={props.labelId} scope="row" key="seed">
         {props.input.seed}
       </TableCell>
-      <TableCell>{props.input.N}</TableCell>
-      <TableCell>{props.input.C}</TableCell>
-      <TableCell>{props.input.P}</TableCell>
+      <TableCell key="N">{props.input.N}</TableCell>
+      <TableCell key="C">{props.input.C}</TableCell>
+      <TableCell key="P">{props.input.P}</TableCell>
     </TableRow>
   );
 }

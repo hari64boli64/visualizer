@@ -244,6 +244,7 @@ function EnhancedTable() {
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <ProblemInfoTableCells
+                      key={input.seed}
                       input={input}
                       labelId={labelId}
                       isItemSelected={isItemSelected}
