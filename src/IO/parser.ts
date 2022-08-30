@@ -52,7 +52,7 @@ export default class FileParser {
     while (this.y < this.content.length) {
       while (this.x < this.content[this.y].length) {
         const word = this.getWord();
-        if (word != "") {
+        if (word !== "") {
           this.reportError(`EOF expected, but word ${this.content[this.y][this.x]}`);
           return false;
         }

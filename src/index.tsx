@@ -15,12 +15,11 @@ import { styled, ThemeProvider } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-import theme from "./theme";
 import Visualizer from "./vis";
 import Problem from "./problem";
-import mainListItems from "./listItems";
-
-const ProblemName = "MM139";
+import theme from "./basis/theme";
+import INFO from "./basis/load_info";
+import mainListItems from "./basis/listItems";
 
 const drawerWidth: number = 240;
 
@@ -103,7 +102,7 @@ function DashboardContent() {
                 <MenuIcon />
               </IconButton>
               <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                {"Visualizer " + ProblemName}
+                {"Visualizer " + INFO.ProblemName}
               </Typography>
             </Toolbar>
           </AppBar>

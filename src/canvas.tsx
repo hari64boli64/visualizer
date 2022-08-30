@@ -1,6 +1,7 @@
 import * as React from "react";
-import Input from "./input_read";
-import Output from "./output_read";
+import Input from "./IO/input_read";
+import Output from "./IO/output_read";
+import INFO from "./basis/load_info";
 
 function DefaultCanvas() {
   return (
@@ -23,9 +24,7 @@ function DefaultCanvas() {
   );
 }
 
-export const canvas_size = 1000;
-
-export function Canvas(props: { input_data: string; output_data: string }) {
+export default function Canvas(props: { input_data: string; output_data: string }) {
   console.log("Canvas");
 
   if (props.input_data === "" && props.output_data === "") {
@@ -47,7 +46,7 @@ export function Canvas(props: { input_data: string; output_data: string }) {
   }
 
   const cells: JSX.Element[] = [];
-  const sz = canvas_size / input.N;
+  const sz = INFO.canvas_size / input.N;
   for (let i = 0; i < input.N; i++) {
     for (let j = 0; j < input.N; j++) {
       cells.push(
@@ -72,7 +71,7 @@ export function Canvas(props: { input_data: string; output_data: string }) {
       </p>
       <svg
         id="vis_svg"
-        viewBox={`0 0 ${canvas_size} ${canvas_size}`}
+        viewBox={`0 0 ${INFO.canvas_size} ${INFO.canvas_size}`}
         xmlns="http://www.w3.org/2000/svg"
         style={{
           maxWidth: "500px",

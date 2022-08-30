@@ -32,4 +32,8 @@ export default class Input {
     console.assert(parser.isEOF());
     console.log("[input read] done");
   }
+
+  summary(): string {
+    return `N:${this.N} C:${this.C} P:${this.P}`;
+  }
 }

@@ -1,6 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { canvas_size } from "./canvas";
+import DownloadIcon from "@mui/icons-material/Download";
+import INFO from "./basis/load_info";
 
 function download_func() {
   // https://stackoverflow.com/questions/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an
@@ -15,15 +16,15 @@ function download_func() {
   source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
   const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
   const img = new Image();
-  img.width = canvas_size;
-  img.height = canvas_size;
+  img.width = INFO.canvas_size;
+  img.height = INFO.canvas_size;
   img.src = url;
   img.onload = () => {
     const canvas = document.createElement("canvas");
-    canvas.width = canvas_size;
-    canvas.height = canvas_size;
+    canvas.width = INFO.canvas_size;
+    canvas.height = INFO.canvas_size;
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-    ctx.drawImage(img, 0, 0, canvas_size, canvas_size);
+    ctx.drawImage(img, 0, 0, INFO.canvas_size, INFO.canvas_size);
     URL.revokeObjectURL(url);
     const canvasdata = canvas.toDataURL("image/png");
     const a = document.createElement("a");
@@ -37,7 +38,10 @@ function download_func() {
 export default function DownloadButton() {
   return (
     <div>
-      <Button onClick={download_func}>download</Button>
+      <Button onClick={download_func}>
+        <DownloadIcon />
+        &nbsp; download
+      </Button>
     </div>
   );
 }

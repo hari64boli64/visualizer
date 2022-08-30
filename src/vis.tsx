@@ -7,10 +7,11 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { Canvas } from "./canvas";
-import Copyright from "./copyright";
+import Canvas from "./canvas";
+import Copyright from "./basis/copyright";
 import DownloadButton from "./download_button";
-import { getInputFromSeed, one_indexed } from "./input_gen";
+import { getInputFromSeed, one_indexed } from "./IO/input_gen";
+import CheckIcon from "@mui/icons-material/Check";
 
 function InOutForm(props: {
   setInput: React.Dispatch<React.SetStateAction<string>>;
@@ -64,7 +65,8 @@ function InOutForm(props: {
         />
       </FormControl>
       <Button variant="outlined" sx={{ m: 1 }} onClick={onButtonClicked}>
-        OK
+        <CheckIcon fontSize="small" />
+        &nbsp;OK
       </Button>
       <div className="testcase-section">
         <TextField
