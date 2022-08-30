@@ -20,6 +20,8 @@ import Visualizer from "./vis";
 import Problem from "./problem";
 import mainListItems from "./listItems";
 
+const ProblemName = "MM139";
+
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
@@ -83,6 +85,7 @@ function DashboardContent() {
           <CssBaseline />
           <AppBar position="absolute" open={open}>
             <Toolbar
+              variant="dense"
               sx={{
                 pr: "24px", // keep right padding when drawer closed
               }}
@@ -100,12 +103,13 @@ function DashboardContent() {
                 <MenuIcon />
               </IconButton>
               <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                Visualizer
+                {"Visualizer " + ProblemName}
               </Typography>
             </Toolbar>
           </AppBar>
           <Drawer variant="permanent" open={open}>
             <Toolbar
+              variant="dense"
               sx={{
                 display: "flex",
                 alignItems: "center",

@@ -22,6 +22,7 @@ const inputs = [
   input_0010,
 ];
 
+// seedが1-indexedかどうか
 const one_indexed = true;
 
 function getInputFromSeed(seed: number): string {
