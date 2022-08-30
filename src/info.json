@@ -1,4 +1,6 @@
 {
     "ProblemName":"MM139",
-    "canvas_size":1000
+    "canvas_size":1000,
+    "inputs_num":50,
+    "one_indexed":true
 }

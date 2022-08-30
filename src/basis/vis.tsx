@@ -5,29 +5,46 @@ import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
+import CheckIcon from "@mui/icons-material/Check";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Canvas from "../vis/canvas";
 import Copyright from "./copyright";
+import INFO from "../basis/load_info";
 import DownloadButton from "./download_button";
-import { getInputFromSeed, one_indexed } from "../IO/input_gen";
-import CheckIcon from "@mui/icons-material/Check";
+import { getInputFromSeed } from "../IO/input_gen";
 
 function InOutForm(props: {
   setInput: React.Dispatch<React.SetStateAction<string>>;
   setOutput: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  const first_index = one_indexed ? 1 : 0;
+  const first_index = INFO.one_indexed ? 1 : 0;
 
   const [seed, setSeed] = React.useState<number>(first_index);
-  const [input_rawdata, setRawInput] = React.useState<string>(getInputFromSeed(first_index));
+  const [input_rawdata, setRawInput] = React.useState<string>("");
   const [output_rawdata, setRawOutput] = React.useState<string>("");
+
+  React.useEffect(() => {
+    // https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect
+    console.log("first render of InOutForm");
+    const f = async () => {
+      const new_input = await getInputFromSeed(first_index);
+      setRawInput(new_input);
+    };
+    f();
+    // https://zenn.dev/mackay/articles/1e8fcce329336d
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function onChangeSeed(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("seed change");
     const new_seed = parseInt(e.currentTarget.value, 10);
     setSeed(new_seed);
-    setRawInput(getInputFromSeed(new_seed));
+    const f = async () => {
+      const new_input = await getInputFromSeed(new_seed);
+      setRawInput(new_input);
+    };
+    f();
   }
   function onChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("input change");

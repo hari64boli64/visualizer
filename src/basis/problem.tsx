@@ -2,7 +2,7 @@ import * as React from "react";
 import Container from "@mui/material/Container";
 import Copyright from "./copyright";
 import Input from "../IO/input_read";
-import { inputs } from "../IO/input_gen";
+import { getInputs } from "../IO/input_gen";
 
 // https://mui.com/material-ui/react-table/
 import { alpha } from "@mui/material/styles";
@@ -146,6 +146,17 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 const listOfRowsPerPage = [10, 25, 50];
 
 function EnhancedTable() {
+  const [inputs, setInputs] = React.useState<Input[]>([]);
+
+  React.useEffect(() => {
+    // https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect
+    const f = async () => {
+      const inputs = await getInputs();
+      setInputs(inputs);
+    };
+    f();
+  }, []);
+
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Input>("seed");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
