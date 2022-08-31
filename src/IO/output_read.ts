@@ -1,9 +1,5 @@
 import FileParser from "./parser";
-
-interface RC {
-  r: number;
-  c: number;
-}
+import RC from "./interface_RC";
 
 export default class Output {
   public K: number;
