@@ -41,10 +41,10 @@ function download_func() {
 
 export default function DownloadButton() {
   return (
-    <div>
+    <>
       <Button onClick={download_func} startIcon={<DownloadIcon />}>
         download
       </Button>
-    </div>
+    </>
   );
 }

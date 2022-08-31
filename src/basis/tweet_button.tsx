@@ -32,10 +32,10 @@ function tweet_func() {
 
 export default function TweetButton() {
   return (
-    <div>
+    <>
       <Button onClick={tweet_func} startIcon={<OpenInNewIcon />}>
         tweet
       </Button>
-    </div>
+    </>
   );
 }
