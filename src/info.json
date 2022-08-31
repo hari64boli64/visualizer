@@ -2,5 +2,8 @@
     "ProblemName":"MM139",
     "canvas_size":1000,
     "inputs_num":50,
-    "one_indexed":true
+    "one_indexed":true,
+    "hashtags":"A,B",
+    "url":"http://www.google.com/",
+    "canTweetTime":32503647600000
 }

@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Input from "@mui/material/Input";
+import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
@@ -11,6 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import Canvas from "../vis/canvas";
 import Copyright from "./copyright";
 import INFO from "../basis/load_info";
+import TweetButton from "./tweet_button";
 import DownloadButton from "./download_button";
 import { getInputFromSeed } from "../IO/input_gen";
 
@@ -81,9 +83,8 @@ function InOutForm(props: {
           sx={{ m: 1, width: "10ch" }}
         />
       </FormControl>
-      <Button variant="outlined" sx={{ m: 1 }} onClick={onButtonClicked}>
-        <CheckIcon fontSize="small" />
-        &nbsp;OK
+      <Button variant="outlined" sx={{ m: 1 }} onClick={onButtonClicked} startIcon={<CheckIcon />}>
+        OK
       </Button>
       <div className="testcase-section">
         <TextField
@@ -119,7 +120,10 @@ export default function Visualizer() {
           <InOutForm setInput={setInput} setOutput={setOutput} />
           <hr></hr>
           <Canvas input_data={input_data} output_data={output_data} />
-          <DownloadButton />
+          <Stack spacing={2} direction="row">
+            <DownloadButton />
+            <TweetButton />
+          </Stack>
         </article>
       </Paper>
       <Copyright sx={{ pt: 4 }} />

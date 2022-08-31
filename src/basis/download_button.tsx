@@ -8,7 +8,11 @@ function download_func() {
   // https://stackoverflow.com/questions/32230894/convert-very-large-svg-to-png-using-canvas
   const svg = document.getElementById("vis_svg");
   if (svg === null) {
-    alert("svg is null");
+    alert("svg is null!");
+    return;
+  }
+  if (!svg.hasChildNodes()) {
+    alert("svg is empty!");
     return;
   }
   const serializer = new XMLSerializer();
@@ -38,9 +42,8 @@ function download_func() {
 export default function DownloadButton() {
   return (
     <div>
-      <Button onClick={download_func}>
-        <DownloadIcon />
-        &nbsp; download
+      <Button onClick={download_func} startIcon={<DownloadIcon />}>
+        download
       </Button>
     </div>
   );
