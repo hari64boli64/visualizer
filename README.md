@@ -1,6 +1,16 @@
 # Visualizer
 
+<!-- <div>
+  <a href="./LICENSE">
+    <img alt="LICENSE" src="https://img.shields.io/badge/license-MIT-blue.svg?maxAge=43200">
+  </a>
+</div> -->
+
 React+MaterialUIで作成しているVisualizerです。
+
+## About
+
+[TopCoder MM139](https://www.topcoder.com/challenges/05bd815f-0e25-4268-a02d-7b8233d710dc)の内容をビジュアライザのしています。
 
 ## Licence
 

@@ -24,7 +24,7 @@ function InOutForm(props: {
 
   const [seed, setSeed] = React.useState<number>(first_index);
   const [input_rawdata, setRawInput] = React.useState<string>("");
-  const [output_rawdata, setRawOutput] = React.useState<string>("");
+  const [output_rawdata, setRawOutput] = React.useState<string>("0");
 
   React.useEffect(() => {
     // https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect
@@ -32,6 +32,8 @@ function InOutForm(props: {
     const f = async () => {
       const new_input = await getInputFromSeed(first_index);
       setRawInput(new_input);
+      props.setInput(new_input);
+      props.setOutput("0");
     };
     f();
     // https://zenn.dev/mackay/articles/1e8fcce329336d
@@ -45,6 +47,8 @@ function InOutForm(props: {
     const f = async () => {
       const new_input = await getInputFromSeed(new_seed);
       setRawInput(new_input);
+      props.setInput(new_input);
+      props.setOutput("0");
     };
     f();
   }
