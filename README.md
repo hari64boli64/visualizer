@@ -11,6 +11,7 @@ React+MaterialUIで作成しているVisualizerです。
 ## About
 
 題材として[TopCoder MM139](https://www.topcoder.com/challenges/05bd815f-0e25-4268-a02d-7b8233d710dc)の内容をビジュアライザしています。
+(この問題自体の制約は、一部反映していません。)
 
 ## How to Run
 
