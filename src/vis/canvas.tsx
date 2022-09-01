@@ -23,10 +23,19 @@ function myAlert(str: string) {
   alert(str);
 }
 
-function VisInfo(props: { score: number }) {
+function VisInfo(props: { score: number; input: Input }) {
   return (
     <p>
-      Score = {props.score} <span className="validation-message"></span>
+      Score = {props.score}
+      <br />
+      {props.input.variables.map((info, idx) => {
+        return (
+          <span>
+            [{info.name}:{info.value}]
+            {idx < props.input.variables.length - 1 && <>&nbsp;&nbsp;&nbsp;</>}
+          </span>
+        );
+      })}
     </p>
   );
 }
@@ -232,7 +241,7 @@ function VisSVG(props: { input: Input; output: Output }) {
 
   return (
     <>
-      <VisInfo score={score} />
+      <VisInfo score={score} input={props.input} />
       <DefaultSVG>
         <>
           {cells}
