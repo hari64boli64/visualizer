@@ -180,8 +180,14 @@ function VisSVG(props: { input: Input; output: Output }) {
         fill={style}
         stroke="gray"
         strokeWidth="2"
-        onTouchStart={() => onRectClicked(props.y, props.x, setStyle)}
-        onMouseDown={() => onRectClicked(props.y, props.x, setStyle)}
+        // onTouchStart={(event) => {
+        //   event.preventDefault();
+        //   onRectClicked(props.y, props.x, setStyle);
+        // }}
+        onClick={(event) => {
+          event.preventDefault();
+          onRectClicked(props.y, props.x, setStyle);
+        }}
       />
     );
   }

@@ -47,7 +47,8 @@ export default function InOutForm(props: {
 }) {
   const first_index = INFO.one_indexed ? 1 : 0;
 
-  const [seed, setSeed] = React.useState<number>(first_index);
+  // this type should be <string> because the input can be "" (when deleteing the input)
+  const [seed, setSeed] = React.useState<string>(first_index.toString());
   const [input_rawdata, setRawInput] = React.useState<string>("");
   const [output_rawdata, setRawOutput] = React.useState<string>("0");
 
@@ -67,8 +68,12 @@ export default function InOutForm(props: {
 
   function onChangeSeed(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("seed change");
+    if (e.currentTarget.value === "") {
+      setSeed("");
+      return;
+    }
     const new_seed = parseInt(e.currentTarget.value, 10);
-    setSeed(new_seed);
+    setSeed(new_seed.toString());
     const f = async () => {
       const new_input = await getInputFromSeed(new_seed);
       setRawInput(new_input);
@@ -110,6 +115,10 @@ export default function InOutForm(props: {
           value={seed}
           onChange={onChangeSeed}
           sx={{ m: 1, width: "10ch" }}
+          onKeyDown={(event) => {
+            // This func is necessary because this is MUI's Input, not the html input itself
+            if (event.key === "Enter") event.preventDefault();
+          }}
         />
       </FormControl>
       <Button variant="outlined" sx={{ m: 1 }} onClick={onButtonClicked} startIcon={<CheckIcon />}>
