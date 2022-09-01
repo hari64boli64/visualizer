@@ -128,7 +128,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={() => alert("no effect yet")}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -143,7 +143,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-const listOfRowsPerPage = [10, 25, 50];
+const listOfRowsPerPage = [10, 25, 50, 100];
 
 function EnhancedTable() {
   const [inputs, setInputs] = React.useState<Input[]>([]);

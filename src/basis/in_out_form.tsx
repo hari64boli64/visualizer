@@ -36,7 +36,7 @@ function OutputFileButton(props: { setRawOutput: any; setOutput: any }) {
         Upload(Output)
         <input hidden type="file" onChange={onInputChange} />
       </Button>
-      <span>{fileName}</span>
+      <span>&nbsp;{fileName}</span>
     </>
   );
 }
@@ -54,7 +54,7 @@ export default function InOutForm(props: {
 
   React.useEffect(() => {
     // https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect
-    console.log("first render of InOutForm");
+    console.log("[InOutForm] first render");
     const f = async () => {
       const new_input = await getInputFromSeed(first_index);
       setRawInput(new_input);
@@ -67,7 +67,6 @@ export default function InOutForm(props: {
   }, []);
 
   function onChangeSeed(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("seed change");
     if (e.currentTarget.value === "") {
       setSeed("");
       return;
@@ -83,15 +82,12 @@ export default function InOutForm(props: {
     f();
   }
   function onChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("input change");
     setRawInput(e.currentTarget.value);
   }
   function onChangeOutput(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("output change");
     setRawOutput(e.currentTarget.value);
   }
   function onButtonClicked(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    console.log("button clicked");
     props.setInput(input_rawdata);
     props.setOutput(output_rawdata);
   }
