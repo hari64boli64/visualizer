@@ -14,10 +14,10 @@ async function getInputFromSeed(seed: number, log = true) {
   } else {
     let response = await fetch(makePath(seed));
     if (response.ok) {
-      if (log) console.log("response ok");
+      if (log) console.log("[getInputFromSeed] response ok");
       return response.text();
     } else {
-      throw new Error("response error");
+      throw new Error("[getInputFromSeed] response error");
     }
   }
 }
