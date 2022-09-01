@@ -14,7 +14,9 @@ React+MaterialUIで作成しているVisualizerです。
 
 ## How to Run
 
-> npm start
+```bash
+npm start
+```
 
 ## Licence
 
