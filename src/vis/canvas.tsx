@@ -7,18 +7,27 @@ import ColorPalette from "./color_palette";
 import DefaultCanvas from "./default_canvas";
 import DefaultSVG from "./default_svg";
 
+// https://stackoverflow.com/questions/322378/javascript-check-if-mouse-button-down
+let isMouseDown = false;
+document.body.onmousedown = () => {
+  isMouseDown = true;
+};
+document.body.onmouseup = () => {
+  isMouseDown = false;
+};
+
+// because mouseup while alerting is not detectable
+function myAlert(str: string) {
+  isMouseDown = false;
+  alert(str);
+}
+
 function VisInfo(props: { score: number }) {
   return (
     <p>
       Score = {props.score} <span className="validation-message"></span>
     </p>
   );
-}
-
-interface CellInfo {
-  r: number;
-  c: number;
-  setStyle: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Title(props: { y: number; x: number }) {
@@ -29,6 +38,12 @@ function Title(props: { y: number; x: number }) {
   );
 }
 
+interface CellInfo {
+  r: number;
+  c: number;
+  setStyle: React.Dispatch<React.SetStateAction<string>>;
+}
+
 function VisSVG(props: { input: Input; output: Output }) {
   const sz = INFO.canvas_size / props.input.N;
   const _cells: JSX.Element[] = [];
@@ -37,7 +52,6 @@ function VisSVG(props: { input: Input; output: Output }) {
       const cell = props.input.grid[y][x];
       _cells.push(
         <g key={`${y}-${x}`}>
-          <Title y={y} x={x} />
           <Rect y={y} x={x} sz={sz} />
           {cell.c > 0 && (
             <>
@@ -64,27 +78,35 @@ function VisSVG(props: { input: Input; output: Output }) {
       );
     }
   }
+  let _score = 0;
   const _paths: JSX.Element[] = [];
   props.output.pipes.forEach((pipe) => {
     let str = "M ";
     pipe.forEach((p) => {
       str += `${(p.c + 0.5) * sz},${(p.r + 0.5) * sz} `;
     });
+    const score_diff =
+      props.input.grid[pipe[0].r][pipe[0].c].v *
+      props.input.grid[pipe[pipe.length - 1].r][pipe[pipe.length - 1].c].v;
+    _score += score_diff;
     _paths.push(
       <path
         d={str}
         key={`${pipe[0].r}-${pipe[0].c}`}
         fill="none"
-        stroke={ColorPalette[firstC as number]}
+        stroke={ColorPalette[props.input.grid[pipe[0].r][pipe[0].c].c]}
         strokeOpacity="0.3"
         strokeWidth={sz * 0.8}
         strokeLinecap="round"
-        style={IgnoreStyle}
+        onClick={(e: React.MouseEvent<SVGPathElement, MouseEvent>) => {
+          e.currentTarget.remove();
+          setScore((score) => score - score_diff);
+        }}
       />
     );
   });
 
-  const [score, setScore] = React.useState<number>(0);
+  const [score, setScore] = React.useState<number>(_score);
   const [paths, setPaths] = React.useState<JSX.Element[]>(_paths);
   const [cells] = React.useState<JSX.Element[]>(_cells);
 
@@ -102,7 +124,9 @@ function VisSVG(props: { input: Input; output: Output }) {
       cellInfos.forEach((cell) => {
         str += `${(cell.c + 0.5) * sz},${(cell.r + 0.5) * sz} `;
       });
-      console.log(cellInfos);
+      const score_diff =
+        (firstV as number) *
+        props.input.grid[cellInfos[cellInfos.length - 1].r][cellInfos[cellInfos.length - 1].c].v;
       const newPath = (
         <path
           d={str}
@@ -112,7 +136,10 @@ function VisSVG(props: { input: Input; output: Output }) {
           strokeOpacity="0.3"
           strokeWidth={sz * 0.8}
           strokeLinecap="round"
-          style={IgnoreStyle}
+          onClick={(e: React.MouseEvent<SVGPathElement, MouseEvent>) => {
+            e.currentTarget.remove();
+            setScore((score) => score - score_diff);
+          }}
         />
       );
       setPaths((path) => [...path, newPath]);
@@ -134,7 +161,8 @@ function VisSVG(props: { input: Input; output: Output }) {
   ) {
     if (cellInfos.length === 0) {
       if (props.input.grid[r][c].c === 0) {
-        alert("choice colored cell");
+        isMouseDown = false;
+        myAlert("choice colored cell");
         fill();
       } else {
         setStyle("gray");
@@ -144,19 +172,23 @@ function VisSVG(props: { input: Input; output: Output }) {
       }
     } else {
       const lastRC = cellInfos.slice(-1)[0];
+      if (lastRC.r === r && lastRC.c === c) return;
       if (Math.abs(lastRC.r - r) + Math.abs(lastRC.c - c) !== 1) {
-        alert("far from last RC");
+        isMouseDown = false;
+        myAlert("far from last RC");
         fill();
       } else {
         if (props.input.grid[r][c].c === 0) {
           setStyle("gray");
           cellInfos.push({ r, c, setStyle });
         } else if (props.input.grid[r][c].c !== firstC) {
-          alert("different color from first");
+          isMouseDown = false;
+          myAlert("different color from first");
           fill();
         } else {
           if (!firstV) {
-            alert("AssertionError");
+            isMouseDown = false;
+            myAlert("AssertionError");
             return -1;
           }
           setScore((score) => {
@@ -172,23 +204,28 @@ function VisSVG(props: { input: Input; output: Output }) {
   function Rect(props: { y: number; x: number; sz: number }) {
     const [style, setStyle] = React.useState<string>("white");
     return (
-      <rect
-        x={props.sz * props.x}
-        y={props.sz * props.y}
-        width={props.sz}
-        height={props.sz}
-        fill={style}
-        stroke="gray"
-        strokeWidth="2"
-        // onTouchStart={(event) => {
-        //   event.preventDefault();
-        //   onRectClicked(props.y, props.x, setStyle);
-        // }}
-        onClick={(event) => {
-          event.preventDefault();
-          onRectClicked(props.y, props.x, setStyle);
-        }}
-      />
+      <>
+        <Title y={props.y} x={props.x} />
+        <rect
+          x={props.sz * props.x}
+          y={props.sz * props.y}
+          width={props.sz}
+          height={props.sz}
+          fill={style}
+          stroke="gray"
+          strokeWidth="2"
+          onMouseDown={(event) => {
+            event.preventDefault();
+            onRectClicked(props.y, props.x, setStyle);
+          }}
+          onMouseEnter={(event) => {
+            event.preventDefault();
+            if (isMouseDown) {
+              onRectClicked(props.y, props.x, setStyle);
+            }
+          }}
+        />
+      </>
     );
   }
 
