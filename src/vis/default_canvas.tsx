@@ -1,5 +1,5 @@
 import * as React from "react";
-import INFO from "../basis/load_info";
+import DefaultSVG from "./default_svg";
 
 export default function DefaultCanvas() {
   console.log("Default Canvas");
@@ -8,16 +8,7 @@ export default function DefaultCanvas() {
       <p>
         Score = -1 <span className="validation-message"></span>
       </p>
-      <svg
-        id="vis_svg"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox={`0 0 ${INFO.canvas_size} ${INFO.canvas_size}`}
-        style={{
-          maxWidth: "500px",
-          maxHeight: "500px",
-          border: "1px solid",
-        }}
-      ></svg>
+      <DefaultSVG />
     </div>
   );
 }

@@ -1,85 +1,11 @@
 import * as React from "react";
-import Input from "../IO/input_read";
 import INFO from "../basis/load_info";
+import Input from "../IO/input_read";
 import Output from "../IO/output_read";
 import IgnoreStyle from "./ignore_style";
 import ColorPalette from "./color_palette";
 import DefaultCanvas from "./default_canvas";
-
-interface CellInfo {
-  r: number;
-  c: number;
-  setStyle: React.Dispatch<React.SetStateAction<string>>;
-}
-
-class Ruler {
-  public cells: CellInfo[] = [];
-  public point: number = 0;
-  private firstC?: number;
-  private firstV?: number;
-  private input?: Input;
-  private setScore?: React.Dispatch<React.SetStateAction<number>>;
-
-  constructor() {}
-
-  setInput(input: Input, setScore: React.Dispatch<React.SetStateAction<number>>) {
-    this.firstC = undefined;
-    this.firstV = undefined;
-    this.input = input;
-    this.setScore = setScore;
-  }
-
-  fill(color: string = "white") {
-    console.log(color);
-    this.cells.forEach((cell) => {
-      cell.setStyle(color);
-    });
-    this.cells.length = 0;
-    this.firstC = undefined;
-    this.firstV = undefined;
-  }
-
-  addCell(r: number, c: number, setStyle: React.Dispatch<React.SetStateAction<string>>) {
-    if (this.input === undefined || this.setScore === undefined) {
-      return;
-    }
-    if (this.cells.length === 0) {
-      if (this.input.grid[r][c].c === 0) {
-        alert("choice colored cell");
-        this.fill();
-      } else {
-        setStyle("gray");
-        this.cells.push({ r, c, setStyle });
-        this.firstC = this.input.grid[r][c].c;
-        this.firstV = this.input.grid[r][c].v;
-      }
-    } else {
-      const lastRC = this.cells.slice(-1)[0];
-      if (Math.abs(lastRC.r - r) + Math.abs(lastRC.c - c) !== 1) {
-        alert("far");
-        this.fill();
-      } else {
-        if (this.input.grid[r][c].c === 0) {
-          setStyle("gray");
-          this.cells.push({ r, c, setStyle });
-        } else if (this.input.grid[r][c].c !== this.firstC) {
-          alert("different from first");
-          this.fill();
-        } else {
-          if (!this.firstV) {
-            alert("AssertionError");
-            return;
-          }
-          this.point += this.firstV * this.input.grid[r][c].v;
-          this.setScore(this.point);
-          this.cells.push({ r, c, setStyle });
-          this.fill(ColorPalette[this.firstC]);
-        }
-      }
-    }
-  }
-}
-const ruler = new Ruler();
+import DefaultSVG from "./default_svg";
 
 function VisInfo(props: { score: number }) {
   return (
@@ -87,6 +13,12 @@ function VisInfo(props: { score: number }) {
       Score = {props.score} <span className="validation-message"></span>
     </p>
   );
+}
+
+interface CellInfo {
+  r: number;
+  c: number;
+  setStyle: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Title(props: { y: number; x: number }) {
@@ -97,40 +29,13 @@ function Title(props: { y: number; x: number }) {
   );
 }
 
-function Rect(props: { y: number; x: number; sz: number }) {
-  const [style, setStyle] = React.useState<string>("white");
-  function onRectCliccked(
-    event: React.MouseEvent<SVGRectElement, MouseEvent> | React.TouchEvent<SVGRectElement>
-  ) {
-    ruler.addCell(props.y, props.x, setStyle);
-  }
-  return (
-    <rect
-      x={props.sz * props.x}
-      y={props.sz * props.y}
-      width={props.sz}
-      height={props.sz}
-      fill={style}
-      stroke="gray"
-      strokeWidth="2"
-      onTouchStart={onRectCliccked}
-      onMouseDown={onRectCliccked}
-    />
-  );
-}
-
-function VisSVG(props: {
-  input: Input;
-  output: Output;
-  setScore: React.Dispatch<React.SetStateAction<number>>;
-}) {
-  const cells: JSX.Element[] = [];
+function VisSVG(props: { input: Input; output: Output }) {
   const sz = INFO.canvas_size / props.input.N;
-
+  const _cells: JSX.Element[] = [];
   for (let y = 0; y < props.input.N; y++) {
     for (let x = 0; x < props.input.N; x++) {
       const cell = props.input.grid[y][x];
-      cells.push(
+      _cells.push(
         <g key={`${y}-${x}`}>
           <Title y={y} x={x} />
           <Rect y={y} x={x} sz={sz} />
@@ -159,27 +64,143 @@ function VisSVG(props: {
       );
     }
   }
+  const _paths: JSX.Element[] = [];
+  props.output.pipes.forEach((pipe) => {
+    let str = "M ";
+    pipe.forEach((p) => {
+      str += `${(p.c + 0.5) * sz},${(p.r + 0.5) * sz} `;
+    });
+    _paths.push(
+      <path
+        d={str}
+        key={`${pipe[0].r}-${pipe[0].c}`}
+        fill="none"
+        stroke={ColorPalette[firstC as number]}
+        strokeOpacity="0.3"
+        strokeWidth={sz * 0.8}
+        strokeLinecap="round"
+        style={IgnoreStyle}
+      />
+    );
+  });
+
+  const [score, setScore] = React.useState<number>(0);
+  const [paths, setPaths] = React.useState<JSX.Element[]>(_paths);
+  const [cells] = React.useState<JSX.Element[]>(_cells);
+
+  const cellInfos: CellInfo[] = [];
+  let firstC: number | undefined = undefined;
+  let firstV: number | undefined = undefined;
+
+  function fill(color: string = "white") {
+    if (color !== "white") {
+      console.log("white");
+      cellInfos.forEach((cell) => {
+        cell.setStyle("white");
+      });
+      let str = "M ";
+      cellInfos.forEach((cell) => {
+        str += `${(cell.c + 0.5) * sz},${(cell.r + 0.5) * sz} `;
+      });
+      console.log(cellInfos);
+      const newPath = (
+        <path
+          d={str}
+          key={`${cellInfos[0].r}-${cellInfos[0].c}`}
+          fill="none"
+          stroke={ColorPalette[firstC as number]}
+          strokeOpacity="0.3"
+          strokeWidth={sz * 0.8}
+          strokeLinecap="round"
+          style={IgnoreStyle}
+        />
+      );
+      setPaths((path) => [...path, newPath]);
+    } else {
+      console.log(color);
+      cellInfos.forEach((cell) => {
+        cell.setStyle(color);
+      });
+    }
+    cellInfos.length = 0;
+    firstC = undefined;
+    firstV = undefined;
+  }
+
+  function onRectClicked(
+    r: number,
+    c: number,
+    setStyle: React.Dispatch<React.SetStateAction<string>>
+  ) {
+    if (cellInfos.length === 0) {
+      if (props.input.grid[r][c].c === 0) {
+        alert("choice colored cell");
+        fill();
+      } else {
+        setStyle("gray");
+        cellInfos.push({ r, c, setStyle });
+        firstC = props.input.grid[r][c].c;
+        firstV = props.input.grid[r][c].v;
+      }
+    } else {
+      const lastRC = cellInfos.slice(-1)[0];
+      if (Math.abs(lastRC.r - r) + Math.abs(lastRC.c - c) !== 1) {
+        alert("far from last RC");
+        fill();
+      } else {
+        if (props.input.grid[r][c].c === 0) {
+          setStyle("gray");
+          cellInfos.push({ r, c, setStyle });
+        } else if (props.input.grid[r][c].c !== firstC) {
+          alert("different color from first");
+          fill();
+        } else {
+          if (!firstV) {
+            alert("AssertionError");
+            return -1;
+          }
+          setScore((score) => {
+            return score + (firstV as number) * props.input.grid[r][c].v;
+          });
+          cellInfos.push({ r, c, setStyle });
+          fill(ColorPalette[firstC]);
+        }
+      }
+    }
+  }
+
+  function Rect(props: { y: number; x: number; sz: number }) {
+    const [style, setStyle] = React.useState<string>("white");
+    return (
+      <rect
+        x={props.sz * props.x}
+        y={props.sz * props.y}
+        width={props.sz}
+        height={props.sz}
+        fill={style}
+        stroke="gray"
+        strokeWidth="2"
+        onTouchStart={() => onRectClicked(props.y, props.x, setStyle)}
+        onMouseDown={() => onRectClicked(props.y, props.x, setStyle)}
+      />
+    );
+  }
 
   return (
-    <svg
-      id="vis_svg"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox={`0 0 ${INFO.canvas_size} ${INFO.canvas_size}`}
-      style={{
-        maxWidth: "500px",
-        maxHeight: "500px",
-        border: "1px solid",
-      }}
-    >
-      {cells}
-    </svg>
+    <>
+      <VisInfo score={score} />
+      <DefaultSVG>
+        <>
+          {cells}
+          {paths}
+        </>
+      </DefaultSVG>
+    </>
   );
 }
 
 export default function Canvas(props: { input_data: string; output_data: string }) {
   console.log("Canvas");
-
-  const [score, setScore] = React.useState<number>(0);
 
   if (props.input_data === "" && props.output_data === "") {
     return <DefaultCanvas />;
@@ -192,12 +213,5 @@ export default function Canvas(props: { input_data: string; output_data: string 
     return <DefaultCanvas />;
   }
 
-  ruler.setInput(input, setScore);
-
-  return (
-    <>
-      <VisInfo score={score} />
-      <VisSVG input={input} output={output} setScore={setScore} />
-    </>
-  );
+  return <VisSVG input={input} output={output} />;
 }

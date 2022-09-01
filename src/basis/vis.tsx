@@ -19,7 +19,11 @@ export default function Visualizer() {
           <h1>Visualizer</h1>
           <InOutForm setInput={setInput} setOutput={setOutput} />
           <hr></hr>
-          <Canvas input_data={input_data} output_data={output_data} />
+          <Canvas
+            input_data={input_data}
+            output_data={output_data}
+            key={input_data + output_data}
+          />
           <Stack spacing={2} direction="row">
             <DownloadButton />
             <TweetButton />
