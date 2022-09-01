@@ -6,6 +6,7 @@ import IgnoreStyle from "./ignore_style";
 import ColorPalette from "./color_palette";
 import DefaultCanvas from "./default_canvas";
 import DefaultSVG from "./default_svg";
+import ErrorBoundary from "../basis/error_boundary";
 
 // https://stackoverflow.com/questions/322378/javascript-check-if-mouse-button-down
 let isMouseDown = false;
@@ -256,5 +257,9 @@ export default function Canvas(props: { input_data: string; output_data: string 
     return <DefaultCanvas />;
   }
 
-  return <VisSVG input={input} output={output} />;
+  return (
+    <ErrorBoundary>
+      <VisSVG input={input} output={output} />
+    </ErrorBoundary>
+  );
 }
