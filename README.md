@@ -6,7 +6,8 @@
   </a>
 </div> -->
 
-React+MaterialUIで作成しているVisualizerです。
+React+MaterialUIで作成しているVisualizerです。  
+まだ更新中です。
 
 ## About
 
@@ -16,6 +17,7 @@ React+MaterialUIで作成しているVisualizerです。
 ## How to Run
 
 ```bash
+npm install
 npm start
 ```
 
