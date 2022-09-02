@@ -7,6 +7,8 @@ import ColorPalette from "./color_palette";
 import DefaultCanvas from "./default_canvas";
 import DefaultSVG from "./default_svg";
 import ErrorBoundary from "../basis/error_boundary";
+import { Box, InputAdornment, TextField, TextFieldProps } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 // https://stackoverflow.com/questions/322378/javascript-check-if-mouse-button-down
 let isMouseDown = false;
@@ -23,20 +25,54 @@ function myAlert(str: string) {
   alert(str);
 }
 
+const MyTextFieldViolet = styled(TextField)<TextFieldProps>(({ theme: any }) => ({
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "Violet",
+    },
+  },
+}));
+
+const MyTextFieldPurple = styled(TextField)<TextFieldProps>(({ theme: any }) => ({
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "purple",
+    },
+  },
+}));
+
 function VisInfo(props: { score: number; input: Input }) {
   return (
-    <p>
-      Score = {props.score}
-      <br />
+    <Box
+      component="form"
+      sx={{
+        "& .MuiTextField-root": { m: 1, width: "200px" },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <MyTextFieldViolet
+        InputProps={{
+          startAdornment: <InputAdornment position="start">score</InputAdornment>,
+        }}
+        key="score"
+        value={props.score}
+        color="warning"
+        size="small"
+      />
       {props.input.variables.map((info, idx) => {
         return (
-          <span>
-            [{info.name}:{info.value}]
-            {idx < props.input.variables.length - 1 && <>&nbsp;&nbsp;&nbsp;</>}
-          </span>
+          <MyTextFieldPurple
+            InputProps={{
+              startAdornment: <InputAdornment position="start">{info.name}</InputAdornment>,
+            }}
+            key={info.name}
+            value={info.value}
+            size="small"
+          />
         );
       })}
-    </p>
+    </Box>
   );
 }
 
