@@ -7,8 +7,7 @@ import ColorPalette from "./color_palette";
 import DefaultCanvas from "./default_canvas";
 import DefaultSVG from "./default_svg";
 import ErrorBoundary from "../basis/error_boundary";
-import { Box, InputAdornment, TextField, TextFieldProps } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import CanvasVisInfo from "./canvas_vis_info";
 
 // https://stackoverflow.com/questions/322378/javascript-check-if-mouse-button-down
 let isMouseDown = false;
@@ -23,57 +22,6 @@ document.body.onmouseup = () => {
 function myAlert(str: string) {
   isMouseDown = false;
   alert(str);
-}
-
-const MyTextFieldViolet = styled(TextField)<TextFieldProps>(({ theme: any }) => ({
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "Violet",
-    },
-  },
-}));
-
-const MyTextFieldPurple = styled(TextField)<TextFieldProps>(({ theme: any }) => ({
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "purple",
-    },
-  },
-}));
-
-function VisInfo(props: { score: number; input: Input }) {
-  return (
-    <Box
-      component="form"
-      sx={{
-        "& .MuiTextField-root": { m: 1, width: "200px" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <MyTextFieldViolet
-        InputProps={{
-          startAdornment: <InputAdornment position="start">score</InputAdornment>,
-        }}
-        key="score"
-        value={props.score}
-        color="warning"
-        size="small"
-      />
-      {props.input.variables.map((info, idx) => {
-        return (
-          <MyTextFieldPurple
-            InputProps={{
-              startAdornment: <InputAdornment position="start">{info.name}</InputAdornment>,
-            }}
-            key={info.name}
-            value={info.value}
-            size="small"
-          />
-        );
-      })}
-    </Box>
-  );
 }
 
 function Title(props: { y: number; x: number }) {
@@ -277,7 +225,7 @@ function VisSVG(props: { input: Input; output: Output }) {
 
   return (
     <>
-      <VisInfo score={score} input={props.input} />
+      <CanvasVisInfo score={score} input={props.input} />
       <DefaultSVG>
         <>
           {cells}
