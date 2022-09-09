@@ -3,9 +3,9 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
 import Canvas from "../vis/canvas";
-import Copyright from "./copyright";
-import TweetButton from "./tweet_button";
-import DownloadButton from "./download_button";
+import Copyright from "./util/copyright";
+import TweetButton from "./util/tweet_button";
+import DownloadButton from "./util/download_button";
 import InOutForm from "./in_out_form";
 
 export default function Visualizer() {

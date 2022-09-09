@@ -15,8 +15,8 @@ import { styled, ThemeProvider } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-import theme from "./basis/theme";
-import INFO from "./basis/load_info";
+import theme from "./basis/util/theme";
+import INFO from "./basis/util/load_info";
 import Visualizer from "./basis/vis";
 import Problem from "./basis/problem";
 import mainListItems from "./basis/listItems";

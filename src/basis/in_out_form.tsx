@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import CheckIcon from "@mui/icons-material/Check";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import INFO from "../basis/load_info";
+import INFO from "./util/load_info";
 import { getInputFromSeed } from "../IO/input_gen";
 
 function OutputFileButton(props: { setRawOutput: any; setOutput: any }) {

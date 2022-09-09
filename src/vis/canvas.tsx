@@ -1,12 +1,12 @@
 import * as React from "react";
-import INFO from "../basis/load_info";
+import INFO from "../basis/util/load_info";
 import Input from "../IO/input_read";
 import Output from "../IO/output_read";
 import IgnoreStyle from "./ignore_style";
 import ColorPalette from "./color_palette";
 import DefaultCanvas from "./default_canvas";
 import DefaultSVG from "./default_svg";
-import ErrorBoundary from "../basis/error_boundary";
+import ErrorBoundary from "../basis/util/error_boundary";
 import CanvasVisInfo from "./canvas_vis_info";
 
 // https://stackoverflow.com/questions/322378/javascript-check-if-mouse-button-down

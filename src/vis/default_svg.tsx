@@ -1,5 +1,5 @@
 import * as React from "react";
-import INFO from "../basis/load_info";
+import INFO from "../basis/util/load_info";
 
 type Props = {
   children?: JSX.Element;

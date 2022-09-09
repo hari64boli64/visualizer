@@ -1,5 +1,5 @@
 import Input from "./input_read";
-import INFO from "../basis/load_info";
+import INFO from "../basis/util/load_info";
 
 // 問題に応じて変更する
 function makePath(seed: number) {

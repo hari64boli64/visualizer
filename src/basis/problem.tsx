@@ -1,6 +1,6 @@
 import * as React from "react";
 import Container from "@mui/material/Container";
-import Copyright from "./copyright";
+import Copyright from "./util/copyright";
 import Input from "../IO/input_read";
 import { getInputs } from "../IO/input_gen";
 
