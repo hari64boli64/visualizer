@@ -133,7 +133,7 @@ function DashboardContent() {
             <Toolbar />
             <Routes>
               <Route index element={<Visualizer />} />
-              <Route path="problem" element={<Problem />} />
+              {INFO.use_ProblemList && <Route path="problem" element={<Problem />} />}
               <Route
                 path="*"
                 element={
