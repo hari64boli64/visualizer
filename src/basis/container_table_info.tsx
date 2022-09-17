@@ -5,8 +5,8 @@ import TableRow from "@mui/material/TableRow";
 import Checkbox from "@mui/material/Checkbox";
 
 export interface HeadCell {
-  disablePadding: boolean;
   id: keyof Input;
+  disablePadding: boolean;
   label: string;
 }
 

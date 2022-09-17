@@ -2,6 +2,7 @@ import * as React from "react";
 import { Box, InputAdornment } from "@mui/material";
 import { MyTextFieldViolet, MyTextFieldPurple } from "./canvas_util";
 import Input from "../IO/input_read";
+import getInputVariables from "../IO/input_variables";
 
 export default function CanvasVisInfo(props: { score: number; input: Input }) {
   return (
@@ -22,13 +23,13 @@ export default function CanvasVisInfo(props: { score: number; input: Input }) {
         color="warning"
         size="small"
       />
-      {props.input.variables.map((info, idx) => {
+      {getInputVariables(props.input).map((info, idx) => {
         return (
           <MyTextFieldPurple
             InputProps={{
-              startAdornment: <InputAdornment position="start">{info.name}</InputAdornment>,
+              startAdornment: <InputAdornment position="start">{info.id}</InputAdornment>,
             }}
-            key={info.name}
+            key={info.id}
             value={info.value}
             size="small"
           />

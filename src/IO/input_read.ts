@@ -5,18 +5,12 @@ interface Cell {
   c: number;
 }
 
-interface VariableInfo {
-  name: string;
-  value: number;
-}
-
 export default class Input {
   public seed: number;
   public N: number;
   public C: number;
   public P: number;
   public grid: Cell[][];
-  public variables: VariableInfo[];
 
   constructor(input_content: string, seed = -1) {
     this.seed = seed;
@@ -38,17 +32,8 @@ export default class Input {
       }
     }
     console.assert(parser.isEOF());
-    this.variables = [
-      { name: "N (grid size)", value: this.N },
-      { name: "C (num of colors)", value: this.C },
-      { name: "P (cross penalty)", value: this.P },
-    ];
     if (seed === -1) {
       console.log("[input read] done");
     }
-  }
-
-  summary(): string {
-    return `N:${this.N} C:${this.C} P:${this.P}`;
   }
 }
